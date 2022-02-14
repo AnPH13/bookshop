@@ -11,7 +11,6 @@ class ListAddress extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
         'address',
         'number_phone',
         'user_id',

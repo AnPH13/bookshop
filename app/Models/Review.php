@@ -14,7 +14,5 @@ class Review extends Model
         'message',
         'image',
         'star',
-        'product_id',
-        'user_id'
     ];
 }
