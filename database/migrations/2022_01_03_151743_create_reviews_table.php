@@ -15,8 +15,6 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('product_id')->unsigned();
             $table->string('message')->nullable();
             $table->string('image')->nullable();
             $table->integer('star')->nullable();

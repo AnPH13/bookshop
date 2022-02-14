@@ -30,8 +30,7 @@ class Constraints extends Migration
             $table->foreign('user_id')->references('id')->on('users');
         });
         Schema::table('reviews', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('id')->references('id')->on('invoice_details');
         });
     }
 
@@ -59,8 +58,7 @@ class Constraints extends Migration
              $table->dropForeign(['user_id']);
         });
         Schema::table('reviews', function (Blueprint $table) {
-             $table->dropForeign(['user_id']);
-             $table->dropForeign(['product_id']);
+             $table->dropForeign(['id']);
         });
     }
 }

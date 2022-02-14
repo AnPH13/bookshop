@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UserDetailSeeder extends Seeder
+class ListAddressSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,15 +16,13 @@ class UserDetailSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
-        for($i=1;$i<21;$i++){
-            DB::table('user_details')->insert([
-                'name' => $faker->name,
-                'avatar' => 'anph.jpg',
-                'birthday' => $faker->dateTimeBetween('1990-01-01', '2012-12-31')
-                ->format('Y-m-d'),
+        for ($i = 1; $i < 21; $i++) {
+            DB::table('list_addresses')->insert([
+                'address' => $faker->address,
                 'number_phone' => $faker->phoneNumber,
-                'gender' => random_int(0,1),
+                'user_id' => $i,
                 'created_at' => now(),
+
             ]);
         }
     }

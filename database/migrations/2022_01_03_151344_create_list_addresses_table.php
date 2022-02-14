@@ -15,7 +15,6 @@ class CreateListAddressesTable extends Migration
     {
         Schema::create('list_addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
             $table->string('address')->nullable();
             $table->string('number_phone')->nullable();
             $table->bigInteger('user_id')->unsigned()->nullable();

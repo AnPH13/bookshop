@@ -25,4 +25,7 @@ class InvoiceDetail extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+    public function review(){
+        return $this->hasOne(Review::class, 'id', 'id');
+    }
 }
