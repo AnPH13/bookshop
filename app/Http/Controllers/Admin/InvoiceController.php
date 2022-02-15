@@ -22,16 +22,16 @@ class InvoiceController extends AdminController
         parent::__construct();
         $this->model = new Invoice();
         $this->data = $this->model->paginate($this->perPage);
-        $this->translate = config('table.translate.invoice');
-        $this->type = config('table.type');
+        $this->type = [
+            'momo'
+        ];
         $this->view = 'admin.screen.invoice.';
         $user = new User();
         $this->dataForeign = $user->all();
-        $this->invoice = new InvoiceDetail();
     }
     public function index()
     {
-        return view($this->view . 'home')->with(['data' => $this->data, 'translate' => $this->translate]);
+        return view($this->view . 'home')->with(['data' => $this->data, 'table' => 'invoice']);
     }
 
     /**
@@ -42,7 +42,7 @@ class InvoiceController extends AdminController
     public function create()
     {
         // return $this->dataForeign['user'];
-        return view($this->view . 'edit')->with(['dataForeign' => $this->dataForeign, 'translate' => $this->translate, 'type' => $this->type]);
+        return view($this->view . 'edit')->with(['dataForeign' => $this->dataForeign, 'type' => $this->type, 'table' => 'invoice']);
     }
 
     /**
@@ -54,7 +54,7 @@ class InvoiceController extends AdminController
     public function store(Request $request)
     {
         $data = addWithParams('invoices', [
-            'user_id' => $request->email,
+            'user_id' => $request->user_id,
             'payment_methods' => $request->payment_methods,
             'status' => $request->status,
         ]);
@@ -72,8 +72,8 @@ class InvoiceController extends AdminController
      */
     public function show($id)
     {
-        $data = $this->invoice->find($id);
-        return $data;
+        $data = InvoiceDetail::where('invoice_id', $id)->paginate($this->perPage);
+        return view($this->view . 'detail')->with(['id' => $id, 'data' => $data, 'dataForeign' => $this->dataForeign, 'table' => 'invoice', 'type' => $this->type]);
     }
 
     /**
@@ -85,7 +85,7 @@ class InvoiceController extends AdminController
     public function edit($id)
     {
         $data = $this->model->find($id);
-        return view($this->view . 'edit')->with(['id' => $id, 'data' => $data, 'dataForeign' => $this->dataForeign, 'translate' => $this->translate, 'type' => $this->type]);
+        return view($this->view . 'edit')->with(['id' => $id, 'data' => $data, 'dataForeign' => $this->dataForeign, 'table' => 'invoice', 'type' => $this->type]);
     }
 
     /**
@@ -118,6 +118,6 @@ class InvoiceController extends AdminController
     {
         $data = $this->model->find($id);
         $data = $data->delete();
-        return redirect()->route('user.index');
+        return redirect()->route('invoice.index');
     }
 }

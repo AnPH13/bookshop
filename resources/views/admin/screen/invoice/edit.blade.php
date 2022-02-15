@@ -1,6 +1,3 @@
-@php
-$list = config('table.list.invoice');
-@endphp
 @extends('admin.index')
 @section('content')
     <div class="content-wrapper">
@@ -9,12 +6,12 @@ $list = config('table.list.invoice');
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">{{ isset($id) ? 'Update' : 'Create' }} invoice</h1>
+                        <h1 class="m-0"></h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">invoice</a></li>
-                            <li class="breadcrumb-item active">{{ isset($id) ? 'Update' : 'Create' }}</li>
+                            <li class="breadcrumb-item"><a href="#">user</a></li>
+                            <li class="breadcrumb-item active">{{ isset($id) ? 'Sửa' : 'Tạo' }}</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -26,7 +23,7 @@ $list = config('table.list.invoice');
         <section class="content">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">invoice</h3>
+                    <h3 class="card-title">Hoá đơn</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -37,44 +34,84 @@ $list = config('table.list.invoice');
                         @method('PUT')
                     @endif
                     <div class="card-body">
-                        @foreach ($translate['foreign'] as $key => $value)
+                        <div class="form-group">
+                            <label for="user_id">Tên và Email</label>
+                            <select class="custom-select" required name="user_id">
+                                @foreach ($dataForeign as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ isset($id) && $data->user_id == $item->id ? 'selected' : '' }}>
+                                        Name: {{ $item->userDetail->name }} -> Email: {{ $item->email }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="user_id">Phương thức thanh toán</label>
+                            <select class="custom-select" required name="payment_methods">
+                                @foreach (config('table.invoice.payment_methods') as $key => $item)
+                                    <option value="{{ $key }}"
+                                        {{ isset($id) && $data->payment_methods == $key ? 'selected' : '' }}>
+                                        {{ $item }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Loại đơn</label>
+                            <select class="custom-select" required name="status">
+                                @foreach (config('table.invoice.status') as $key => $item)
+                                    <option value="{{ $key }}"
+                                        {{ isset($id) && $data->status == $key ? 'selected' : '' }}>
+                                        {{ $item }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        {{-- <div class="form-group">
+                            <label for="name">Tên</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập Tên"
+                                value="{{ isset($id) ? $data->userDetail->name : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Nhập email"
+                                value="{{ isset($id) ? $data->email : '' }}">
+                        </div>
+                        @if(!isset($id))
                             <div class="form-group">
-                                <label>{{ $value }}</label>
-                                <select class="custom-select" required name="{{ $key }}">
-                                    @foreach ($dataForeign as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ isset($id) && $data->user_id == $item->id ? 'selected' : '' }}>
-                                            {{ $item->$key }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <label for="password">Mật khẩu</label>
+                                <input type="text" class="form-control" id="password" name="password"
+                                    placeholder="Nhập mật khẩu">
                             </div>
-                        @endforeach
-                        @foreach ($translate['name-colum'] as $key => $value)
-                            @if ($key == 'created_at')
-                            @elseif ($type['invoice'][$key] == 'text' || $type['invoice'][$key] == 'email')
-                                <div class="form-group">
-                                    <label for="{{ $key }}">{{ $value }}</label>
-                                    <input type="{{ $type['invoice'][$key] }}" class="form-control"
-                                        id="{{ $key }}" name="{{ $key }}"
-                                        placeholder="Nhập {{ $value }}"
-                                        value="{{ isset($id) ? $data->$key : '' }}">
-                                </div>
-                                @elseif($type['invoice'][$key] == "list")
-                                <div class="form-group">
-                                    <label>{{ $value }}</label>
-                                    <select class="custom-select" required name="{{ $key }}">
-                                        @foreach ($list[$key] as $key1 => $item)
-                                            <option value="{{ $key1 }}"
-                                                {{ isset($id) && $data->$key == $key1 ? 'selected' : '' }}>
-                                                {{ $item }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
+                        @endisset
 
-                        @endforeach
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="gender" name="gender">
+                                <label class="form-check-label" for="gender">Nam</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="number_phone">Số điện thoại</label>
+                            <input type="number" class="form-control" id="number_phone" name="number_phone"
+                                placeholder="Nhập số điện thoại"
+                                value="{{ isset($id) ? $data->userDetail->number_phone : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday">Ngày sinh</label>
+                            <input type="date" class="form-control" id="birthday" name="birthday"
+                                placeholder="Nhập ngày sinh" value="{{ isset($id) ? $data->userDetail->birthday : '' }}">
+                        </div>
+                        <div class="form-group" style="height:254px;">
+                            <label for="">Ảnh đại diện</label>
+                            <div class="custom-file">
+                                <input type="file" class="form-control" id="image_input_avatar"
+                                    onchange="LoadImage(this, '#image_avatar')" name="avatar"
+                                    accept="image/gif, image/jpeg, image/png">
+                                <img id="image_avatar" src="#" alt="your image"
+                                    style="border: 2px solid; display:none; height:200px;">
+                            </div>
+                        </div> --}}
                         {{-- <div class="form-group">
                       <label for="exampleInputPassword1">Password</label>
                       <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">

@@ -4,9 +4,11 @@ use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\InvoiceDetailController;
 use App\Http\Controllers\Admin\ListAddress;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,13 +31,16 @@ Route::match(['get', 'post'], '/', [AuthController::class, 'login'])->middleware
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth.basic')->name('logout');
 
 Route::group([
-                'middleware'=>['auth','throttle:10'],
+                'middleware'=>['auth'],
                 'prefix' => 'admin'
             ],function () {
     Route::resource('invoice',InvoiceController::class);
     Route::resource('invoice-detail', InvoiceDetailController::class);
-    Route::resource('list-address',ListAddress::class);
+    // Route::resource('list-address',ListAddress::class);
     Route::resource('product',ProductController::class);
     Route::resource('review',ReviewController::class);
     Route::resource('user',UserController::class);
+    Route::resource('product-image', ProductImageController::class);
 });
+
+Route::resource('home', HomeController::class);

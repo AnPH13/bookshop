@@ -15,7 +15,7 @@ class InvoiceDetailSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0; $i<21; $i++){
+        for($i=1; $i<21; $i++){
             DB::table('invoice_details')->insert([
                 'product_id' => random_int(1,20),
                 'product_total' => random_int(1,20), // admin

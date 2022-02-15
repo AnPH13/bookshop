@@ -6,7 +6,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Tài khoản</h1>
+                        <h1 class="m-0">Sản phẩm</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -27,15 +27,15 @@
                     <div class="col-12">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Table tài khoản</h3>
+                                <h3 class="card-title">Table sản phẩm</h3>
                                 <div class="card-tools">
                                     <div class="input-group input-group-sm" style="width: 150px;">
-                                        <a href="{{ route('user.create') }}">
+                                        <a href="{{ route('product.create') }}">
                                             <button type="submit" class="btn btn-default">
 
                                                 <i class="far fa-plus-square"></i>
                                                 <span style="padding-left: 5px">
-                                                    Thêm tài khoản</span>
+                                                    Thêm sản phẩm</span>
                                             </button>
                                         </a>
                                     </div>
@@ -49,11 +49,13 @@
                                             <tr>
                                                 <th>STT</th>
                                                 <th>Tên</th>
-                                                <th>Email</th>
-                                                <th>Giới tính</th>
-                                                <th>Số điện thoại</th>
-                                                <th>Ngày sinh</th>
-                                                <th>Ảnh đại diện</th>
+                                                <th>Giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Số lượng đã bán</th>
+                                                <th>Loại sản phẩm</th>
+                                                <th>Nhà cung cấp</th>
+                                                <th>Tác giả</th>
+                                                <th>Mô tả</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
@@ -64,19 +66,23 @@
                                             @foreach ($data as $item)
                                                 <tr>
                                                     <td>{{ ++$stt }}</td>
-                                                    <td>{{ $item->userDetail->name }}</td>
-                                                    <td>{{ $item->email }}</td>
-                                                    <td>{{ $item->userDetail->gender == 0 ? 'Nữ' : 'Nam' }}</td>
-                                                    <td>{{ $item->userDetail->number_phone }}</td>
-                                                    <td>{{ date('d-m-Y', strtotime($item->userDetail->birthday)) }}</td>
-                                                    <td><img height="150px" src="Avatar/{{ $item->userDetail->avatar }}"
-                                                            alt=""></td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ $item->price }}</td>
+                                                    <td>{{ $item->total }}</td>
+                                                    <td>{{ $item->total_sold }}</td>
+                                                    <td>{{ $item->type }}</td>
+                                                    <td>{{ $item->provider }}</td>
+                                                    <td>{{ $item->author }}</td>
+                                                    <td>{{ $item->description }}</td>
+                                                    {{--  <td><img height="150px" src="Avatar/{{ $item->userDetail->avatar }}"
+                                                            alt=""></td>  --}}
                                                     <td>
                                                         <div
                                                             style="display: flex; justify-content: space-around; align-items: center;">
-                                                            <a href="{{ route('user.edit', $item->id) }}"><i
+                                                            <a href="{{ route('product.show', $item->id) }}">ảnh sp</a>
+                                                            <a href="{{ route('product.edit', $item->id) }}"><i
                                                                     class="fas fa-edit"></i></a>
-                                                            <form action="{{ route('user.destroy', $item->id) }}"
+                                                            <form action="{{ route('product.destroy', $item->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('delete')

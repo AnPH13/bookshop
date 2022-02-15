@@ -34,56 +34,51 @@
                         @method('PUT')
                     @endif
                     <div class="card-body">
-                        @foreach ($translate['name-colum'] as $key => $value)
-                            @if ($type['user'][$key] == 'text' || $type['user'][$key] == 'email')
-                                <div class="form-group">
-                                    <label for="{{ $key }}">{{ $value }}</label>
-                                    <input type="{{ $type['user'][$key] }}" class="form-control"
-                                        id="{{ $key }}" name="{{ $key }}"
-                                        placeholder="Nhập {{ $value }}"
-                                        value="{{ isset($id) ? $data->$key : '' }}">
-                                </div>
-                            @endif
-
-                        @endforeach
-                        @if (!isset($id))
+                        <div class="form-group">
+                            <label for="name">Tên</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập Tên"
+                                value="{{ isset($id) ? $data->userDetail->name : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Nhập email"
+                                value="{{ isset($id) ? $data->email : '' }}">
+                        </div>
+                        @if(!isset($id))
                             <div class="form-group">
                                 <label for="password">Mật khẩu</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Nhập password">
+                                <input type="text" class="form-control" id="password" name="password"
+                                    placeholder="Nhập mật khẩu">
                             </div>
-                        @endif
-                        @foreach ($translate['foreign'] as $key => $value)
-                            @if ($type['user-detail'][$key] == 'check')
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="{{ $key }}"
-                                            name="{{ $key }}">
-                                        <label class="form-check-label"
-                                            for="{{ $key }}">{{ $key == 'gender' ? 'Giới tính nam' : $value }}</label>
-                                    </div>
-                                </div>
-                            @elseif ($type['user-detail'][$key] == 'image')
-                                <div class="form-group" style="height:254px;">
-                                    <label for="">{{ $value }}</label>
-                                    <div class="custom-file">
-                                        <input type="file" class="form-control" id="image_input_{{ $key }}"
-                                            onchange="LoadImage(this, '#image_{{ $key }}')"
-                                            name="{{ $key }}" accept="image/gif, image/jpeg, image/png">
-                                        <img id="image_{{ $key }}" src="#" alt="your image"
-                                            style="border: 2px solid; display:none; height:200px;">
-                                    </div>
-                                </div>
-                            @else
-                                <div class="form-group">
-                                    <label for="{{ $key }}">{{ $value }}</label>
-                                    <input type="{{ $type['user-detail'][$key] }}" class="form-control"
-                                        id="{{ $key }}" name="{{ $key }}"
-                                        placeholder="Nhập {{ $value }}"
-                                        value="{{ isset($id) ? $data->userDetail->$key : '' }}">
-                                </div>
-                            @endif
-                        @endforeach
+                        @endisset
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="gender" name="gender">
+                                <label class="form-check-label" for="gender">Nam</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="number_phone">Số điện thoại</label>
+                            <input type="number" class="form-control" id="number_phone" name="number_phone"
+                                placeholder="Nhập số điện thoại"
+                                value="{{ isset($id) ? $data->userDetail->number_phone : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday">Ngày sinh</label>
+                            <input type="date" class="form-control" id="birthday" name="birthday"
+                                placeholder="Nhập ngày sinh" value="{{ isset($id) ? $data->userDetail->birthday : '' }}">
+                        </div>
+                        <div class="form-group" style="height:254px;">
+                            <label for="">Ảnh đại diện</label>
+                            <div class="custom-file">
+                                <input type="file" class="form-control" id="image_input_avatar"
+                                    onchange="LoadImage(this, '#image_avatar')" name="avatar"
+                                    accept="image/gif, image/jpeg, image/png">
+                                <img id="image_avatar" src="#" alt="your image"
+                                    style="border: 2px solid; display:none; height:200px;">
+                            </div>
+                        </div>
                         {{-- <div class="form-group">
                       <label for="exampleInputPassword1">Password</label>
                       <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">

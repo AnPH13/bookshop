@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AdminController;
-use App\Models\InvoiceDetail;
-use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 
-class InvoiceDetailController extends AdminController
+class ProductImageController extends AdminController
 {
     /**
      * Display a listing of the resource.
@@ -17,18 +16,16 @@ class InvoiceDetailController extends AdminController
     function __construct()
     {
         parent::__construct();
-        $this->model = new InvoiceDetail();
+        $this->model = new ProductImage();
         $this->data = $this->model->paginate($this->perPage);
         $this->type = [
             'momo'
         ];
-        $this->view = 'admin.screen.invoice.';
-        $product = new Product();
-        $this->dataForeign = $product->all();
+        $this->view = 'admin.screen.product.';
     }
     public function index()
     {
-
+        //
     }
 
     /**
@@ -38,8 +35,7 @@ class InvoiceDetailController extends AdminController
      */
     public function create()
     {
-        // return $this->dataForeign;
-
+        //
     }
 
     /**
@@ -50,16 +46,22 @@ class InvoiceDetailController extends AdminController
      */
     public function store(Request $request)
     {
-            $data = addWithParams('invoice_details', [
-                'product_id' => $request->product_id,
-                'product_total' => $request->product_total,
-                'status' => $request->status == "on" ? 1 : 0,
-                'invoice_id' => $request->invoice_id,
-            ]);
-            if ($data) {
-                return redirect()->route('invoice.show', $request->invoice_id);
+        // upload avatar
+        if($request->avatar){
+            $name = uploadImage($request, 'avatar');
+            if(!$name){
+                return back()->withInput();
             }
-            return back()->withErrors(['msg' => 'Thêm thất bại']);
+        }
+        $data = addWithParams('product_images',[
+            'product_id' => $request->product_id,
+            'link_image' => $name ?? "",
+            'created_at' => now(),
+        ]);
+        if ($data) {
+            return redirect()->route('product.show', $request->product_id);
+        }
+        return back()->withErrors(['msg' => 'Thêm thất bại']);
     }
 
     /**
@@ -70,7 +72,7 @@ class InvoiceDetailController extends AdminController
      */
     public function show($id)
     {
-        return view($this->view . 'editDetail')->with(['dataForeign' => $this->dataForeign, 'type' => $this->type, 'table' => 'invoice', 'invoice_id' => $id]);
+        return view($this->view . 'editDetail')->with(['type' => $this->type, 'table' => 'product', 'product_id' => $id]);
     }
 
     /**
@@ -82,7 +84,7 @@ class InvoiceDetailController extends AdminController
     public function edit($id)
     {
         $data = $this->model->find($id);
-        return view($this->view . 'editDetail')->with(['id' => $id, 'data' => $data, 'dataForeign' => $this->dataForeign, 'table' => 'invoice', 'type' => $this->type]);
+        return view($this->view . 'editDetail')->with(['id' => $id, 'data' => $data, 'table' => 'product', 'type' => $this->type]);
     }
 
     /**
@@ -94,14 +96,19 @@ class InvoiceDetailController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        $invoice = $this->model->find($id);
-        $data = editByWhere('invoice_details', [
-            'product_id' => $request->product_id,
-            'product_total' => $request->product_total,
-            'status' => $request->status == "on" ? 1 : 0,
+        // upload avatar
+        if($request->avatar){
+            $name = uploadImage($request, 'avatar');
+            if(!$name){
+                return back()->withInput();
+            }
+        }
+        $product = $this->model->find($id);
+        $data = editByWhere('product_images', [
+            'link_image' => $name ?? "",
         ], ['id' => $id]);
         if ($data) {
-            return redirect()->route('invoice.show',  $invoice->invoice_id);
+            return redirect()->route('product.show',  $product->product_id);
         }
         return back()->withErrors(['msg' => 'Sửa thất bại']);
     }
@@ -116,6 +123,6 @@ class InvoiceDetailController extends AdminController
     {
         $data = $this->model->find($id);
         $data1 = $data->delete();
-        return redirect()->route('invoice.show',  $data->invoice_id);
+        return redirect()->route('product.show',  $data->product_id);
     }
 }

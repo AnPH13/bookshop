@@ -14,9 +14,9 @@ class InvoiceSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0; $i<21; $i++){
+        for($i=1; $i<21; $i++){
             DB::table('invoices')->insert([
-                'user_id' => random_int(1,2),
+                'user_id' => random_int(1,20),
                 'payment_methods' => random_int(1,2), // admin
                 'total_amount' => random_int(0, 20),
                 'status' => random_int(1,5),

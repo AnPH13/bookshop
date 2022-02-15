@@ -16,7 +16,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0; $i<21; $i++){
+        for($i=1; $i<21; $i++){
             DB::table('products')->insert([
                 'name' => Str::random(7),
                 'price' => random_int(10000, 20000), // admin

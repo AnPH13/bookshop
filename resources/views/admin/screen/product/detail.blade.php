@@ -6,7 +6,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Tài khoản</h1>
+                        <h1 class="m-0">Ảnh sản phẩm {{ $id ?? "" }}</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -27,15 +27,15 @@
                     <div class="col-12">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Table tài khoản</h3>
+                                <h3 class="card-title"></h3>
                                 <div class="card-tools">
                                     <div class="input-group input-group-sm" style="width: 150px;">
-                                        <a href="{{ route('user.create') }}">
+                                        <a href="{{ route('product-image.show', $id) }}">
                                             <button type="submit" class="btn btn-default">
 
                                                 <i class="far fa-plus-square"></i>
                                                 <span style="padding-left: 5px">
-                                                    Thêm tài khoản</span>
+                                                    Thêm ảnh</span>
                                             </button>
                                         </a>
                                     </div>
@@ -48,12 +48,9 @@
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                <th>Tên</th>
-                                                <th>Email</th>
-                                                <th>Giới tính</th>
-                                                <th>Số điện thoại</th>
-                                                <th>Ngày sinh</th>
-                                                <th>Ảnh đại diện</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Ảnh sản phẩm</th>
+                                                <th>Ngày tạo</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
@@ -64,19 +61,16 @@
                                             @foreach ($data as $item)
                                                 <tr>
                                                     <td>{{ ++$stt }}</td>
-                                                    <td>{{ $item->userDetail->name }}</td>
-                                                    <td>{{ $item->email }}</td>
-                                                    <td>{{ $item->userDetail->gender == 0 ? 'Nữ' : 'Nam' }}</td>
-                                                    <td>{{ $item->userDetail->number_phone }}</td>
-                                                    <td>{{ date('d-m-Y', strtotime($item->userDetail->birthday)) }}</td>
-                                                    <td><img height="150px" src="Avatar/{{ $item->userDetail->avatar }}"
-                                                            alt=""></td>
+                                                    <td>{{ $item->product->name }}</td>
+                                                    <td><img height="150px" src="Avatar/{{ $item->link_image }}"
+                                                        alt=""></td>
+                                                    <td>{{ $item->created_at }}</td>
                                                     <td>
                                                         <div
                                                             style="display: flex; justify-content: space-around; align-items: center;">
-                                                            <a href="{{ route('user.edit', $item->id) }}"><i
+                                                            <a href="{{ route('product-image.edit', $item->id) }}"><i
                                                                     class="fas fa-edit"></i></a>
-                                                            <form action="{{ route('user.destroy', $item->id) }}"
+                                                            <form action="{{ route('product-image.destroy', $item->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('delete')

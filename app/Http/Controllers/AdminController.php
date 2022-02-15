@@ -9,8 +9,6 @@ class AdminController extends Controller
     protected $data;
 
     protected $perPage;
-
-    protected $translate;
     protected $view;
     protected $type;
 

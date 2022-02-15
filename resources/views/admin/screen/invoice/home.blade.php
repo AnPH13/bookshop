@@ -1,6 +1,3 @@
-@php
-$list = config('table.list.invoice');
-@endphp
 @extends('admin.index')
 @section('content')
     <div class="content-wrapper">
@@ -9,7 +6,7 @@ $list = config('table.list.invoice');
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Home</h1>
+                        <h1 class="m-0">Hoá đơn</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -30,7 +27,7 @@ $list = config('table.list.invoice');
                     <div class="col-12">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Table invoice</h3>
+                                <h3 class="card-title">Table Hoá đơn</h3>
                                 <div class="card-tools">
                                     <div class="input-group input-group-sm" style="width: 150px;">
                                         <a href="{{ route('invoice.create') }}">
@@ -38,7 +35,7 @@ $list = config('table.list.invoice');
 
                                                 <i class="far fa-plus-square"></i>
                                                 <span style="padding-left: 5px">
-                                                    Thêm invoice</span>
+                                                    Thêm hoá đơn</span>
                                             </button>
                                         </a>
                                     </div>
@@ -51,12 +48,11 @@ $list = config('table.list.invoice');
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                @foreach ($translate['name-colum'] as $item)
-                                                    <th>{{ $item }}</th>
-                                                @endforeach
-                                                @foreach ($translate['foreign'] as $item)
-                                                    <th>{{ $item }}</th>
-                                                @endforeach
+                                                <th>Tên</th>
+                                                <th>Email</th>
+                                                <th>Phương thức thanh toán</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Trạng thái</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
@@ -67,22 +63,15 @@ $list = config('table.list.invoice');
                                             @foreach ($data as $item)
                                                 <tr>
                                                     <td>{{ ++$stt }}</td>
-                                                    @foreach ($translate['name-colum'] as $key => $value)
-                                                        @if ($key == 'status')
-                                                            <td>{{ $list['status'][$item->$key] }}</td>
-                                                        @elseif($key == 'payment_methods')
-                                                            <td>{{ $list['payment_methods'][$item->$key] }}</td>
-                                                        @else
-                                                            <td>{{ $item->$key }}</td>
-                                                        @endif
-                                                    @endforeach
-                                                    @foreach ($translate['foreign'] as $key => $value)
-                                                        <td>{{ $item->user->$key }}</td>
-                                                    @endforeach
+                                                    <td>{{ $item->user->userDetail->name }}</td>
+                                                    <td>{{ $item->user->email }}</td>
+                                                    <td>{{ config('table.invoice.payment_methods')[$item->payment_methods] }}</td>
+                                                    <td>{{ $item->total_amount }}</td>
+                                                    <td>{{ config('table.invoice.status')[$item->status] }}</td>
                                                     <td>
                                                         <div
                                                             style="display: flex; justify-content: space-around; align-items: center;">
-                                                            <a href="{{ route('invoice-detail.show', $item->id) }}">xem chi tiết</a>
+                                                            <a href="{{ route('invoice.show', $item->id) }}">chi tiết</a>
                                                             <a href="{{ route('invoice.edit', $item->id) }}"><i
                                                                     class="fas fa-edit"></i></a>
                                                             <form action="{{ route('invoice.destroy', $item->id) }}"

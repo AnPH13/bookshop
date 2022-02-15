@@ -16,7 +16,7 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0; $i<21; $i++){
+        for($i=1; $i<21; $i++){
             DB::table('reviews')->insert([
                 'message' => Str::random(20), // admin
                 'image' => $i.'.jpg',

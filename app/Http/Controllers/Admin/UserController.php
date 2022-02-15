@@ -14,13 +14,14 @@ class UserController extends AdminController
         parent::__construct();
         $this->model = new User();
         $this->data = $this->model->paginate($this->perPage);
-        $this->translate = config('table.translate.user');
-        $this->type = config('table.type');
+        $this->type = [
+            'momo'
+        ];
         $this->view = 'admin.screen.user.';
     }
     public function index()
     {
-        return view($this->view.'home')->with(['data' => $this->data, 'translate' => $this->translate]);
+        return view($this->view.'home')->with(['data' => $this->data, 'table' => 'user']);
     }
 
     /**
@@ -30,7 +31,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        return view($this->view.'edit')->with(['data' => $this->data, 'translate' => $this->translate, 'type' => $this->type]);
+        return view($this->view.'edit')->with(['data' => $this->data, 'type' => $this->type, 'table' => 'user']);
     }
 
     /**
@@ -97,7 +98,7 @@ class UserController extends AdminController
     public function edit($id)
     {
         $data = $this->model->find($id);
-        return view($this->view.'edit')->with(['id' => $id, 'data' => $data, 'translate' => $this->translate, 'type' => $this->type]);
+        return view($this->view.'edit')->with(['id' => $id, 'data' => $data, 'type' => $this->type, 'table' => 'user']);
     }
 
     /**

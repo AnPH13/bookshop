@@ -43,10 +43,34 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route('user.index') }}" class="nav-link active">
+                    <a href="{{ route('user.index') }}" class="nav-link {{ $table == 'user' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Tài Khoản
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('invoice.index') }}" class="nav-link {{ $table == 'invoice' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Hoá đơn
+                        </p>
+                    </a>
+                </li>
+                {{--  <li class="nav-item">
+                    <a href="{{ route('list-address.index') }}" class="nav-link {{ $table == 'list_address' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Danh sách địa chỉ
+                        </p>
+                    </a>
+                </li>  --}}
+                <li class="nav-item">
+                    <a href="{{ route('product.index') }}" class="nav-link {{ $table == 'product' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Sản phẩm
                         </p>
                     </a>
                 </li>
