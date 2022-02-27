@@ -26,21 +26,39 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::match(['get', 'post'], '/', [AuthController::class, 'login'])->middleware('guest')->name('login');
+Route::match(['get', 'post'], '/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
+Route::match(['get', 'post'], '/register', [AuthController::class, 'register'])->middleware('guest')->name('register');
 
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth.basic')->name('logout');
 
 Route::group([
-                'middleware'=>['auth'],
-                'prefix' => 'admin'
-            ],function () {
-    Route::resource('invoice',InvoiceController::class);
+    'middleware' => ['AuthAdminMiddleware'],
+    'prefix' => 'admin'
+], function () {
+    Route::resource('invoice', InvoiceController::class);
     Route::resource('invoice-detail', InvoiceDetailController::class);
     // Route::resource('list-address',ListAddress::class);
-    Route::resource('product',ProductController::class);
-    Route::resource('review',ReviewController::class);
-    Route::resource('user',UserController::class);
+    Route::resource('product', ProductController::class);
+    Route::resource('review', ReviewController::class);
+    Route::resource('user', UserController::class);
     Route::resource('product-image', ProductImageController::class);
 });
-
-Route::resource('home', HomeController::class);
+Route::prefix('/')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    Route::get('{id}/show', [HomeController::class, 'show'])->name('home.show');
+});
+Route::prefix('list')->group(function () {
+    Route::get('/', [HomeController::class, 'list_index'])->name('list.index');
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::prefix('cart')->group(function () {
+        Route::get('/', [HomeController::class, 'cart_index'])->name('cart.index');
+        Route::get('add/{id}', [HomeController::class, 'cart_add'])->name('cart.add');
+        Route::delete('{id}/delete', [HomeController::class, 'cart_delete'])->name('cart.delete');
+    });
+    Route::group(['prefix' => 'love'],function () {
+        Route::get('/', [HomeController::class, 'love_index'])->name('love.index');
+        Route::delete('{id}/delete', [HomeController::class, 'love_delete'])->name('love.delete');
+        Route::get('add/{id}', [HomeController::class, 'love_add'])->name('love.add');
+    });
+});

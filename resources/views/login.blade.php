@@ -29,8 +29,8 @@
             <a href="#" id="forgot_pswd">Forgot password?</a>
             <hr>
             <!-- <p>Don't have an account!</p>  -->
-            <button class="btn btn-primary btn-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i>
-                Sign up New Account</button>
+            <button class="btn btn-primary btn-block" type="button" id="btn-signup"><a style="text-decoration: none; color:white;" href="{{ route('register') }}"><i class="fas fa-user-plus"></i>
+                Sign up New Account</a></button>
         </form>
 
         <form action="/reset/password/" class="form-reset">

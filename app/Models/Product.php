@@ -26,4 +26,8 @@ class Product extends Model
     public function invoiceDetail(){
         return $this->hasMany(InvoiceDetail::class, 'product_id', 'id');
     }
+    public function cart(){
+        return $this->hasMany(Cart::class, 'product_id', 'id');
+    }
+
 }

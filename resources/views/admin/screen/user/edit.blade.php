@@ -47,7 +47,7 @@
                         @if(!isset($id))
                             <div class="form-group">
                                 <label for="password">Mật khẩu</label>
-                                <input type="text" class="form-control" id="password" name="password"
+                                <input type="password" class="form-control" id="password" name="password"
                                     placeholder="Nhập mật khẩu">
                             </div>
                         @endisset

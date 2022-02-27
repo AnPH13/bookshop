@@ -9,7 +9,7 @@ if (!function_exists('addWithParams')) {
             $data = DB::table($table)->insert($param);
             return $data;
         } catch (Exception $e) {
-            // return $e->getMessage();
+            return $e->getMessage();
             return false;
         }
     }

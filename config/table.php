@@ -11,8 +11,6 @@ return[
             'Đơn nhập',
             'Đơn xuất',
             'Đơn huỷ',
-            'Giỏ hàng',
-            'Đơn đã mua'
         ],
     ],
     'invoice_type' => [
